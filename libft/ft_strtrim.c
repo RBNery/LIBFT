@@ -14,25 +14,28 @@
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*res;
 	size_t	i;
-	size_t	j;
-	size_t	k;
 
-	j = 0;
-	k = 0;
 	if (!s1 || !set)
-		return (0);
-	while (ft_strchr(set, *s1) && *s1 != '\0')
+		return (NULL);
+	while (ft_strchr(set, *s1) && *s1)
 		s1++;
-	i = ft_strlen;
-	while (ft_strchr(set, s1[i]) && i > 0)
+	i = ft_strlen((char *)s1);
+	while (ft_strchr(set, s1[i]) && i != 0)
 		i--;
-	res = (char *)malloc(i + 1);
-	if (!res)
-		return (0);
-	while (j < ft_strlen(s1) && k < i + 1)
-		res[k++] = s1[j++];
-	res[k] = '\0';
-	return (res);
+	return (ft_substr(s1, 0, i + 1));
 }
+
+/*
+#include <stdio.h>
+
+int	main()
+{
+	char	*s1 = "";
+	char	*set = " \n\t";
+	printf("%s\n", ft_strtrim(s1, set));
+	printf("s1: %s	|	size: %d	|	set: %s\n \
+	Result: %s	|	Size: %d\n", s1, ft_strlen(s1), set, \
+	ft_strtrim(s1, set), ft_strlen(ft_strtrim(s1, set)));
+}
+*/

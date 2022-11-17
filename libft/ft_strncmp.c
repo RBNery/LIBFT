@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbatisti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 14:12:07 by rbatisti          #+#    #+#             */
-/*   Updated: 2022/11/15 14:12:08 by rbatisti         ###   ########.fr       */
+/*   Created: 2022/11/03 15:08:34 by rbatisti          #+#    #+#             */
+/*   Updated: 2022/11/15 14:37:45 by rbatisti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_itoa(int n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	char	*res;
-	long	num;
-	size_t	len;
+	size_t	i;
 
-	num = n;
-	len = 2;
-	while (num > 9)
+	i = 0;
+	while ((s1[i] != '\0' || s2[i] != '\0') && i < n)
 	{
-		num = num / 10;
-		len++;
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
 	}
-	res = (char *)malloc(sizeof(char) * len);
-	len--;
-	res[len] = '\0';
-	len--;
-	while (n > 0)
-	{
-		res[len] = (n % 10) + 48;
-		n = n / 10;
-		len--;
-	}
-	return (res);
+	return (0);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int	main(void)
+{
+	char	s1[10] = "geste";
+	char	s2[10] = "gaaa";
+	printf("%d", ft_strncmp(s1, s2,2));
+}*/

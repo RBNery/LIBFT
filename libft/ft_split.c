@@ -12,90 +12,92 @@
 
 #include "libft.h"
 
-int	num_str(char const *str, char charset)
+static int	ft_wordcount(char const *s, char c)
 {
 	int	i;
-	int	j;
+	int	count;
 
-	j = 0;
 	i = 0;
-	while (str[i] != '\0')
+	count = 0;
+	while (*(s + i) != '\0')
 	{
-		while (str[i] != '\0' && (str[i] == charset))
+		while (*(s + i) == c && *(s + i) != '\0')
 			i++;
-		if (str[i] != '\0')
-			j++;
-		while (str[i] != '\0' && !((str[i] == charset)))
+		if (*(s + i) != '\0')
+		{
+			count++;
+			i++;
+		}
+		while (*(s + i) != c && *(s + i) != '\0')
 			i++;
 	}
-	return (j);
+	return (count);
 }
 
-int	len(char const *str, char c)
+static int	ft_wordlen(char const *s, char c, int start)
 {
 	int	i;
+	int	count;
 
-	i = 0;
-	while (str[i] && str[i] != c)
+	i = start;
+	count = 0;
+	while (*(s + i) && (*(s + i) != c))
+	{
+		count++;
 		i++;
+	}
 	return (i);
 }
 
-char	*ft_word(char const *str, char charset)
+static char	*ft_getword(char const *s, char c, int start)
 {
-	int		len_word;
-	int		i;
 	char	*word;
+	int		len;
+	int		i;
+	int		j;
 
-	i = 0;
-	len_word = len(str, charset);
-	word = (char *)malloc(sizeof(char) * (len_word + 1));
-	while (i < len_word)
-	{
-		word[i] = str[i];
+	i = start;
+	j = 0;
+	len = ft_wordlen(s, c, start);
+	word = (char *)malloc((len + 1) * sizeof(char));
+	if (!word)
+		return (NULL);
+	while (*(s + i) == c)
 		i++;
+	while (*(s + i) != c && *(s + i) != '\0')
+	{
+		word[j] = *(s + i);
+		i++;
+		j++;
 	}
-	word[i] = '\0';
+	word[j] = '\0';
 	return (word);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**res;
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
+	char	**arr;
 
 	i = 0;
 	j = 0;
-	res = malloc((num_str(s, c) + 1) * sizeof(char *));
-	if (!res)
-		return (0);
-	res[num_str(s, c)] = '\0';
-	while (*s != '\0')
+	if (!s)
+		return (NULL);
+	arr = (char **)malloc((ft_wordcount(s, c) + 1) * sizeof(char *));
+	if (!arr)
+		return (NULL);
+	while (*(s + i) != '\0')
 	{
-		while (*s != '\0' && *s == c)
-			s++;
-		if (*s != '\0')
-		{
-			res[i] = ft_word(s, c);
+		while (*(s + i) == c && *(s + i) != '\0')
 			i++;
+		if (*(s + i) != '\0')
+		{
+			arr[j++] = ft_getword(s, c, i++);
 		}
-		while (*s && *s != c)
-			s++;
+		while (*(s + i) != c && *(s + i) != '\0')
+			i++;
 	}
-	return (res);
+	arr[j] = NULL;
+	return (arr);
 }
-
-/*
- int    main()
- {
-      int        i;
-      char    **test;
-      test = ft_split("rodolfo batisti nery", ' ');
-      i = 0;
-      while (test[i])
-      {
-                   printf("%s\n", test[i]);
-                   i++;
-      }
- }*/

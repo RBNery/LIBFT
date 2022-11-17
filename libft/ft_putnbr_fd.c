@@ -1,36 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbatisti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 14:24:04 by rbatisti          #+#    #+#             */
-/*   Updated: 2022/11/15 14:24:05 by rbatisti         ###   ########.fr       */
+/*   Created: 2022/11/15 14:20:43 by rbatisti          #+#    #+#             */
+/*   Updated: 2022/11/15 15:19:08 by rbatisti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	ft_putnbr_fd(int n, int fd)
 {
-	char	*res;
-	size_t	i;
-	size_t	j;
-
-	j = 0;
-	i = start;
-	if (s != NULL)
-		return (0);
-	res = (char *)malloc(len + 1);
-	if (!res)
-		return (0);
-	while (i < ft_strlen(s) && j < len)
+	if (n == -2147483648)
 	{
-		res[j] = s[i];
-		i++;
-		j++;
+		ft_putchar_fd('-', fd);
+		ft_putchar_fd('2', fd);
+		n = 147483648;
 	}
-	res[j] = '\0';
-	return (res);
+	if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		n *= -1;
+	}
+	if (n < 10)
+	{
+		ft_putchar_fd(n + 48, fd);
+		return ;
+	}
+	else
+		ft_putnbr_fd(n / 10, fd);
+	ft_putnbr_fd(n % 10, fd);
 }
+/*
+ #include <stdio.h>
+ int main()
+ {
+ 	ft_putnbr_fd(2874, 1);
+  	}
+  
+ */

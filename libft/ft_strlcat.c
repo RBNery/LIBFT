@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbatisti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 15:18:20 by rbatisti          #+#    #+#             */
-/*   Updated: 2022/11/15 15:18:22 by rbatisti         ###   ########.fr       */
+/*   Created: 2022/11/15 14:22:15 by rbatisti          #+#    #+#             */
+/*   Updated: 2022/11/15 14:22:17 by rbatisti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_pustr_fd(char *s, int fd)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	int	i;
+	size_t	a;
+	size_t	b;
+	size_t	res;
 
-	i = 0;
-	if (!s)
-		return ;
-	while (s[i] != '\0')
+	a = 0;
+	b = 0;
+	if (size == 0 || size <= ft_strlen(dst))
+		return (ft_strlen(src) + size);
+	else
+		res = ft_strlen(src) + ft_strlen(dst);
+	while (dst[b])
+		b++;
+	while (b + 1 < size && src[a])
 	{
-		ft_putchar_fd(s[i], fd);
-		i++;
+		dst[b] = src[a];
+		a++;
+		b++;
 	}
-}
+	dst[b] = '\0';
+	return (res);
+}	
